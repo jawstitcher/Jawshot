@@ -7,6 +7,8 @@ let audioContext;
 let analyser;
 let dataArray;
 let animationId;
+let beatAudio = null;
+let currentBeatUrl = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'; // Default beat
 
 // ============ INITIALIZATION ============
 document.addEventListener('DOMContentLoaded', () => {
@@ -157,6 +159,12 @@ async function startRecording() {
         document.getElementById('entry-state').classList.add('hidden');
         document.getElementById('recording-state').classList.remove('hidden');
 
+        // Create and play the beat
+        beatAudio = new Audio(currentBeatUrl);
+        beatAudio.volume = 0.6; // Slightly lower so vocals are clear
+        beatAudio.loop = true;
+        beatAudio.play();
+
         // Request microphone access
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
@@ -181,6 +189,12 @@ async function startRecording() {
             // Stop visualizer
             if (animationId) cancelAnimationFrame(animationId);
             if (audioContext) audioContext.close();
+
+            // Stop the beat
+            if (beatAudio) {
+                beatAudio.pause();
+                beatAudio.currentTime = 0;
+            }
 
             // Show share modal
             showShareModal();
