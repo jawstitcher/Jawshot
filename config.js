@@ -2,8 +2,8 @@
 export const config = {
     // Supabase
     supabase: {
-        url: 'YOUR_SUPABASE_URL',
-        anonKey: 'YOUR_SUPABASE_ANON_KEY'
+        url: 'https://xavbshdmppvqkkvtxhip.supabase.co',
+        anonKey: 'sb_publishable_Kd1OQQwgTcg7G2Tnt83Krw_LPp6YN1b'
     },
 
     // Stripe
