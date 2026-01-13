@@ -1,0 +1,32 @@
+{
+  "name": "jawshot-app",
+  "version": "1.0.0",
+  "description": "🦈 One Take. No Scraps. - The most viral rap challenge app",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "npx http-server -p 3000 -c-1",
+    "dev": "npx http-server -p 3000 -c-1 -o",
+    "build": "echo 'Static site - no build needed'",
+    "deploy": "netlify deploy --prod",
+    "test": "echo \"Tests coming soon\" && exit 0"
+  },
+  "keywords": [
+    "rap",
+    "music",
+    "challenge",
+    "viral",
+    "audio",
+    "recording"
+  ],
+  "author": "Connor Impey",
+  "license": "MIT",
+  "dependencies": {
+    "@stripe/stripe-js": "^4.11.0",
+    "@supabase/supabase-js": "^2.47.10"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
