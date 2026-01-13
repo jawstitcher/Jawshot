@@ -1,12 +1,14 @@
 :root {
-    --naga-green: #00ff41;
-    --naga-green-dim: #00cc33;
-    --deep-ocean: #050a0f;
-    --shark-grey: #1a1a1a;
+    --fire-orange: #ff4500;
+    --fire-red: #ff1744;
+    --fire-purple: #9c27b0;
+    --electric-blue: #00e5ff;
+    --deep-black: #0a0a0a;
+    --ember-glow: rgba(255, 69, 0, 0.5);
     --glass-bg: rgba(255, 255, 255, 0.05);
     --glass-border: rgba(255, 255, 255, 0.1);
-    --glow: rgba(0, 255, 65, 0.4);
-    --shadow-glow: 0 0 60px rgba(0, 255, 65, 0.3);
+    --glow: rgba(255, 69, 0, 0.6);
+    --shadow-glow: 0 0 60px rgba(255, 69, 0, 0.4);
 }
 
 * {
@@ -15,10 +17,11 @@
     box-sizing: border-box;
 }
 
-body, html {
+body,
+html {
     width: 100%;
     height: 100%;
-    background-color: var(--deep-ocean);
+    background-color: var(--deep-black);
     color: white;
     font-family: 'Space Grotesk', sans-serif;
     overflow: hidden;
@@ -32,7 +35,7 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 50% 50%, #0a1520 0%, #000 100%);
+    background: radial-gradient(circle at 50% 50%, #1a0505 0%, #000 100%);
     z-index: -2;
 }
 
@@ -51,13 +54,16 @@ body, html {
 }
 
 @keyframes breathe {
-    0%, 100% { 
-        opacity: 0.3; 
-        transform: translate(-50%, -50%) scale(1); 
+
+    0%,
+    100% {
+        opacity: 0.3;
+        transform: translate(-50%, -50%) scale(1);
     }
-    50% { 
-        opacity: 0.6; 
-        transform: translate(-50%, -50%) scale(1.2); 
+
+    50% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1.2);
     }
 }
 
@@ -67,27 +73,30 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0, 255, 65, 0.03) 2px,
-        rgba(0, 255, 65, 0.03) 4px
-    );
+    background: repeating-linear-gradient(0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 255, 65, 0.03) 2px,
+            rgba(0, 255, 65, 0.03) 4px);
     animation: waterFlow 20s linear infinite;
     pointer-events: none;
     z-index: -1;
 }
 
 @keyframes waterFlow {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(100px); }
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(100px);
+    }
 }
 
 /* ============ FLOATING PARTICLES ============ */
 .particle {
     position: fixed;
-    background: radial-gradient(circle, rgba(0, 255, 65, 0.4), transparent);
+    background: radial-gradient(circle, var(--ember-glow), transparent);
     border-radius: 50%;
     pointer-events: none;
     animation: float linear infinite;
@@ -99,12 +108,15 @@ body, html {
         transform: translateY(100vh) scale(0);
         opacity: 0;
     }
+
     10% {
         opacity: 1;
     }
+
     90% {
         opacity: 1;
     }
+
     100% {
         transform: translateY(-100px) scale(1);
         opacity: 0;
@@ -151,8 +163,15 @@ header {
 }
 
 @keyframes swim {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(10px); }
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(10px);
+    }
 }
 
 .logo {
@@ -161,7 +180,7 @@ header {
     letter-spacing: -3px;
     font-weight: 700;
     text-transform: uppercase;
-    background: linear-gradient(135deg, white, var(--naga-green));
+    background: linear-gradient(135deg, var(--fire-orange), var(--fire-red), var(--fire-purple));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -182,21 +201,28 @@ header {
 }
 
 .count {
-    color: var(--naga-green);
+    color: var(--fire-orange);
     font-weight: 700;
     font-size: 1.2rem;
     animation: pulse 2s ease-in-out infinite;
 }
 
 @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
 }
 
 .btn-ghost {
     background: transparent;
-    border: 1px solid var(--naga-green);
-    color: var(--naga-green);
+    border: 1px solid var(--fire-orange);
+    color: var(--fire-orange);
     padding: 10px 20px;
     border-radius: 25px;
     cursor: pointer;
@@ -222,7 +248,8 @@ header {
     position: relative;
 }
 
-#entry-state, #recording-state {
+#entry-state,
+#recording-state {
     text-align: center;
     max-width: 800px;
     width: 100%;
@@ -243,6 +270,7 @@ header {
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -290,7 +318,7 @@ header {
 .btn-main {
     background: transparent;
     border: 3px solid var(--naga-green);
-    color: var(--naga-green);
+    color: var(--fire-orange);
     padding: 30px 80px;
     font-size: 1.8rem;
     font-weight: 700;
@@ -361,8 +389,16 @@ header {
 }
 
 @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0.3; }
+
+    0%,
+    50% {
+        opacity: 1;
+    }
+
+    51%,
+    100% {
+        opacity: 0.3;
+    }
 }
 
 #timer {
@@ -370,7 +406,7 @@ header {
     font-size: 5rem;
     font-weight: 700;
     margin: 40px 0;
-    color: var(--naga-green);
+    color: var(--fire-orange);
     text-shadow: var(--shadow-glow);
 }
 
@@ -417,7 +453,7 @@ footer {
 }
 
 .divider {
-    color: var(--naga-green);
+    color: var(--fire-orange);
 }
 
 /* ============ MODALS ============ */
@@ -437,8 +473,13 @@ footer {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .modal-content {
@@ -454,6 +495,7 @@ footer {
         opacity: 0;
         transform: translateY(50px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -470,7 +512,7 @@ footer {
 .price {
     font-size: 4rem;
     font-weight: 700;
-    color: var(--naga-green);
+    color: var(--fire-orange);
     margin: 30px 0;
     text-shadow: var(--shadow-glow);
 }
@@ -547,7 +589,7 @@ footer {
     font-size: 2.5rem;
     margin-bottom: 30px;
     letter-spacing: 2px;
-    color: var(--naga-green);
+    color: var(--fire-orange);
     text-shadow: var(--shadow-glow);
 }
 
@@ -578,12 +620,23 @@ footer {
     font-size: 1.5rem;
     font-weight: 700;
     min-width: 50px;
-    color: var(--naga-green);
+    color: var(--fire-orange);
 }
 
-.leaderboard-item:nth-child(1) .rank { color: #ffd700; font-size: 2rem; }
-.leaderboard-item:nth-child(2) .rank { color: #c0c0c0; font-size: 1.8rem; }
-.leaderboard-item:nth-child(3) .rank { color: #cd7f32; font-size: 1.6rem; }
+.leaderboard-item:nth-child(1) .rank {
+    color: #ffd700;
+    font-size: 2rem;
+}
+
+.leaderboard-item:nth-child(2) .rank {
+    color: #c0c0c0;
+    font-size: 1.8rem;
+}
+
+.leaderboard-item:nth-child(3) .rank {
+    color: #cd7f32;
+    font-size: 1.6rem;
+}
 
 .user-info {
     flex: 1;
@@ -604,13 +657,13 @@ footer {
 .score {
     font-size: 1.3rem;
     font-weight: 700;
-    color: var(--naga-green);
+    color: var(--fire-orange);
 }
 
 .play-btn {
     background: transparent;
-    border: 1px solid var(--naga-green);
-    color: var(--naga-green);
+    border: 1px solid var(--fire-orange);
+    color: var(--fire-orange);
     padding: 8px 16px;
     border-radius: 20px;
     cursor: pointer;
@@ -670,10 +723,29 @@ footer {
 
 /* ============ RESPONSIVE ============ */
 @media (max-width: 768px) {
-    .app-ui { padding: 20px; }
-    .logo { font-size: 2rem; }
-    .hero-text { font-size: 2.5rem; }
-    .btn-main { padding: 20px 40px; font-size: 1.2rem; }
-    #timer { font-size: 3rem; }
-    .status-zone { flex-direction: column; gap: 10px; }
+    .app-ui {
+        padding: 20px;
+    }
+
+    .logo {
+        font-size: 2rem;
+    }
+
+    .hero-text {
+        font-size: 2.5rem;
+    }
+
+    .btn-main {
+        padding: 20px 40px;
+        font-size: 1.2rem;
+    }
+
+    #timer {
+        font-size: 3rem;
+    }
+
+    .status-zone {
+        flex-direction: column;
+        gap: 10px;
+    }
 }
