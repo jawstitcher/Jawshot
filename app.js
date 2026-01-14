@@ -273,16 +273,16 @@ function hideShareModal() {
 // ============ LEADERBOARD ============
 function initLeaderboard() {
     const mockData = [
-        { rank: 1, username: 'SHARK_KING', avatar: '👑', streak: 47, score: 9847 },
-        { rank: 2, username: 'APEX_VERSE', avatar: '🦈', streak: 32, score: 8920 },
-        { rank: 3, username: 'DEEP_FLOW', avatar: '🌊', streak: 28, score: 7654 },
-        { rank: 4, username: 'NAGA_RAP', avatar: '🐍', streak: 19, score: 6543 },
-        { rank: 5, username: 'BITE_BARS', avatar: '🦷', streak: 15, score: 5821 },
-        { rank: 6, username: 'OCEAN_MC', avatar: '🌊', streak: 12, score: 4932 },
-        { rank: 7, username: 'TANK_GOD', avatar: '⚡', streak: 9, score: 4201 },
-        { rank: 8, username: 'WAVE_RIDER', avatar: '🏄', streak: 7, score: 3890 },
-        { rank: 9, username: 'BASS_BEAST', avatar: '🔊', streak: 5, score: 3421 },
-        { rank: 10, username: 'TIDE_TURNER', avatar: '🔄', streak: 3, score: 2987 }
+        { rank: 1, username: 'FIRE_SPITTER', avatar: '🔥', streak: 47, unhinged: 2847, singed: 23 },
+        { rank: 2, username: 'HEAT_WAVE', avatar: '🌊', streak: 32, unhinged: 2120, singed: 45 },
+        { rank: 3, username: 'BLAZE_MC', avatar: '⚡', streak: 28, unhinged: 1654, singed: 67 },
+        { rank: 4, username: 'FLAME_BARS', avatar: '💥', streak: 19, unhinged: 1243, singed: 89 },
+        { rank: 5, username: 'EMBER_GOD', avatar: '✨', streak: 15, unhinged: 921, singed: 102 },
+        { rank: 6, username: 'INFERNO_MC', avatar: '🎤', streak: 12, unhinged: 732, singed: 134 },
+        { rank: 7, username: 'BURN_UNIT', avatar: '🎵', streak: 9, unhinged: 601, singed: 156 },
+        { rank: 8, username: 'HEAT_SEEKER', avatar: '🎧', streak: 7, unhinged: 490, singed: 178 },
+        { rank: 9, username: 'WILD_FIRE', avatar: '🌟', streak: 5, unhinged: 321, singed: 201 },
+        { rank: 10, username: 'PHOENIX_BARS', avatar: '🦅', streak: 3, unhinged: 187, singed: 234 }
     ];
 
     const list = document.getElementById('leaderboardList');
@@ -297,11 +297,82 @@ function initLeaderboard() {
                 <div class="username">${user.avatar} ${user.username}</div>
                 <div class="user-stats">${user.streak} day streak</div>
             </div>
-            <div class="score">${user.score.toLocaleString()}</div>
-            <button class="play-btn">▶️</button>
+            <div class="vote-counts">
+                <span class="unhinged-count">${user.unhinged} 🔥</span>
+                <span class="singed-count">${user.singed} 💧</span>
+            </div>
+            <div class="vote-buttons">
+                <button class="vote-btn unhinged-btn" data-submission-id="${user.rank}">🔥 UNHINGED</button>
+                <button class="vote-btn singed-btn" data-submission-id="${user.rank}">💧 SINGED</button>
+            </div>
         `;
+
+        // Add vote handlers
+        const unhingedBtn = item.querySelector('.unhinged-btn');
+        const singedBtn = item.querySelector('.singed-btn');
+
+        unhingedBtn.addEventListener('click', () => handleVote(user.rank, 'unhinged', unhingedBtn));
+        singedBtn.addEventListener('click', () => handleVote(user.rank, 'singed', singedBtn));
+
         list.appendChild(item);
     });
+}
+
+function handleVote(submissionId, voteType, button) {
+    // Get the counts display
+    const item = button.closest('.leaderboard-item');
+    const unhingedCount = item.querySelector('.unhinged-count');
+    const singedCount = item.querySelector('.singed-count');
+
+    // Parse current counts
+    let unhinged = parseInt(unhingedCount.textContent);
+    let singed = parseInt(singedCount.textContent);
+
+    // Check if user already voted
+    const voteKey = `vote_${submissionId}`;
+    const previousVote = localStorage.getItem(voteKey);
+
+    if (previousVote === voteType) {
+        // Undo vote
+        if (voteType === 'unhinged') {
+            unhinged--;
+        } else {
+            singed--;
+        }
+        localStorage.removeItem(voteKey);
+        button.classList.remove('voted');
+    } else {
+        // Remove previous vote if exists
+        if (previousVote) {
+            if (previousVote === 'unhinged') {
+                unhinged--;
+                item.querySelector('.unhinged-btn').classList.remove('voted');
+            } else {
+                singed--;
+                item.querySelector('.singed-btn').classList.remove('voted');
+            }
+        }
+
+        // Add new vote
+        if (voteType === 'unhinged') {
+            unhinged++;
+        } else {
+            singed++;
+        }
+        localStorage.setItem(voteKey, voteType);
+        button.classList.add('voted');
+    }
+
+    // Update display with animation
+    unhingedCount.textContent = `${unhinged} 🔥`;
+    singedCount.textContent = `${singed} 💧`;
+
+    // Animate the count
+    const targetCount = voteType === 'unhinged' ? unhingedCount : singedCount;
+    targetCount.style.transform = 'scale(1.3)';
+    setTimeout(() => {
+        targetCount.style.transform = 'scale(1)';
+    }, 200);
 }
 
 // ============ SOCIAL SHARING ============

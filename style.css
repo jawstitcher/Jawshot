@@ -654,28 +654,84 @@ footer {
     color: rgba(255, 255, 255, 0.6);
 }
 
-.score {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--fire-orange);
+
+.vote-counts {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 0 15px;
+    text-align: right;
 }
 
-.play-btn {
-    background: transparent;
-    border: 1px solid var(--fire-orange);
+.unhinged-count {
     color: var(--fire-orange);
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: transform 0.2s ease;
+}
+
+.singed-count {
+    color: var(--electric-blue);
+    font-weight: 600;
+    font-size: 0.95rem;
+    opacity: 0.8;
+    transition: transform 0.2s ease;
+}
+
+.vote-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.vote-btn {
+    background: transparent;
+    border: 2px solid;
     padding: 8px 16px;
-    border-radius: 20px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 0.85rem;
+    font-weight: 700;
     transition: all 0.3s ease;
     font-family: 'Space Grotesk', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.play-btn:hover {
-    background: var(--naga-green);
+.unhinged-btn {
+    border-color: var(--fire-orange);
+    color: var(--fire-orange);
+}
+
+.unhinged-btn:hover {
+    background: var(--fire-orange);
+    color: black;
+    box-shadow: 0 0 20px rgba(255, 69, 0, 0.4);
+    transform: translateY(-2px);
+}
+
+.unhinged-btn.voted {
+    background: var(--fire-orange);
     color: black;
 }
+
+.singed-btn {
+    border-color: var(--electric-blue);
+    color: var(--electric-blue);
+}
+
+.singed-btn:hover {
+    background: var(--electric-blue);
+    color: black;
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+.singed-btn.voted {
+    background: var(--electric-blue);
+    color: black;
+}
+
 
 /* ============ SHARE MODAL ============ */
 .share-buttons {
