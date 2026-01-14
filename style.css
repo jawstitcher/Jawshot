@@ -663,19 +663,29 @@ footer {
     text-align: right;
 }
 
-.unhinged-count {
+.human-count {
     color: var(--fire-orange);
     font-weight: 700;
     font-size: 1.1rem;
     transition: transform 0.2s ease;
 }
 
-.singed-count {
+.ai-count {
     color: var(--electric-blue);
     font-weight: 600;
     font-size: 0.95rem;
     opacity: 0.8;
     transition: transform 0.2s ease;
+}
+
+.human-won {
+    color: var(--fire-orange);
+    font-weight: 700;
+}
+
+.ai-won {
+    color: var(--electric-blue);
+    font-weight: 700;
 }
 
 .vote-buttons {
@@ -698,7 +708,7 @@ footer {
     letter-spacing: 0.5px;
 }
 
-.unhinged-btn {
+.human-btn {
     border-color: var(--fire-orange);
     color: var(--fire-orange);
 }
@@ -710,12 +720,12 @@ footer {
     transform: translateY(-2px);
 }
 
-.unhinged-btn.voted {
+.human-btn.voted {
     background: var(--fire-orange);
     color: black;
 }
 
-.singed-btn {
+.ai-btn {
     border-color: var(--electric-blue);
     color: var(--electric-blue);
 }
@@ -727,7 +737,7 @@ footer {
     transform: translateY(-2px);
 }
 
-.singed-btn.voted {
+.ai-btn.voted {
     background: var(--electric-blue);
     color: black;
 }

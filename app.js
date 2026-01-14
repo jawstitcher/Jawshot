@@ -273,46 +273,51 @@ function hideShareModal() {
 // ============ LEADERBOARD ============
 function initLeaderboard() {
     const mockData = [
-        { rank: 1, username: 'FIRE_SPITTER', avatar: '🔥', streak: 47, unhinged: 2847, singed: 23 },
-        { rank: 2, username: 'HEAT_WAVE', avatar: '🌊', streak: 32, unhinged: 2120, singed: 45 },
-        { rank: 3, username: 'BLAZE_MC', avatar: '⚡', streak: 28, unhinged: 1654, singed: 67 },
-        { rank: 4, username: 'FLAME_BARS', avatar: '💥', streak: 19, unhinged: 1243, singed: 89 },
-        { rank: 5, username: 'EMBER_GOD', avatar: '✨', streak: 15, unhinged: 921, singed: 102 },
-        { rank: 6, username: 'INFERNO_MC', avatar: '🎤', streak: 12, unhinged: 732, singed: 134 },
-        { rank: 7, username: 'BURN_UNIT', avatar: '🎵', streak: 9, unhinged: 601, singed: 156 },
-        { rank: 8, username: 'HEAT_SEEKER', avatar: '🎧', streak: 7, unhinged: 490, singed: 178 },
-        { rank: 9, username: 'WILD_FIRE', avatar: '🌟', streak: 5, unhinged: 321, singed: 201 },
-        { rank: 10, username: 'PHOENIX_BARS', avatar: '🦅', streak: 3, unhinged: 187, singed: 234 }
+        { rank: 1, username: 'FIRE_SPITTER', avatar: '🔥', streak: 47, humanVotes: 2847, aiVotes: 123, winner: 'human' },
+        { rank: 2, username: 'HEAT_WAVE', avatar: '🌊', streak: 32, humanVotes: 2120, aiVotes: 345, winner: 'human' },
+        { rank: 3, username: 'BLAZE_MC', avatar: '⚡', streak: 28, humanVotes: 1654, aiVotes: 567, winner: 'human' },
+        { rank: 4, username: 'FLAME_BARS', avatar: '💥', streak: 19, humanVotes: 1243, aiVotes: 889, winner: 'human' },
+        { rank: 5, username: 'EMBER_GOD', avatar: '✨', streak: 15, humanVotes: 921, aiVotes: 1002, winner: 'ai' },
+        { rank: 6, username: 'INFERNO_MC', avatar: '🎤', streak: 12, humanVotes: 732, aiVotes: 1234, winner: 'ai' },
+        { rank: 7, username: 'BURN_UNIT', avatar: '🎵', streak: 9, humanVotes: 501, aiVotes: 1456, winner: 'ai' },
+        { rank: 8, username: 'HEAT_SEEKER', avatar: '🎧', streak: 7, humanVotes: 390, aiVotes: 1678, winner: 'ai' },
+        { rank: 9, username: 'WILD_FIRE', avatar: '🌟', streak: 5, humanVotes: 221, aiVotes: 1901, winner: 'ai' },
+        { rank: 10, username: 'PHOENIX_BARS', avatar: '🦅', streak: 3, humanVotes: 87, aiVotes: 2234, winner: 'ai' }
     ];
 
     const list = document.getElementById('leaderboardList');
     list.innerHTML = '';
 
+
     mockData.forEach(user => {
         const item = document.createElement('li');
         item.className = 'leaderboard-item';
+
+        const winnerBadge = user.winner === 'human' ? '👤 WON' : '🤖 AI WON';
+        const winnerClass = user.winner === 'human' ? 'human-won' : 'ai-won';
+
         item.innerHTML = `
             <div class="rank">#${user.rank}</div>
             <div class="user-info">
                 <div class="username">${user.avatar} ${user.username}</div>
-                <div class="user-stats">${user.streak} day streak</div>
+                <div class="user-stats">${user.streak} day streak · <span class="${winnerClass}">${winnerBadge}</span></div>
             </div>
             <div class="vote-counts">
-                <span class="unhinged-count">${user.unhinged} 🔥</span>
-                <span class="singed-count">${user.singed} 💧</span>
+                <span class="human-count">👤 ${user.humanVotes}</span>
+                <span class="ai-count">🤖 ${user.aiVotes}</span>
             </div>
             <div class="vote-buttons">
-                <button class="vote-btn unhinged-btn" data-submission-id="${user.rank}">🔥 UNHINGED</button>
-                <button class="vote-btn singed-btn" data-submission-id="${user.rank}">💧 SINGED</button>
+                <button class="vote-btn human-btn" data-submission-id="${user.rank}">👤 HUMAN</button>
+                <button class="vote-btn ai-btn" data-submission-id="${user.rank}">🤖 AI</button>
             </div>
         `;
 
         // Add vote handlers
-        const unhingedBtn = item.querySelector('.unhinged-btn');
-        const singedBtn = item.querySelector('.singed-btn');
+        const humanBtn = item.querySelector('.human-btn');
+        const aiBtn = item.querySelector('.ai-btn');
 
-        unhingedBtn.addEventListener('click', () => handleVote(user.rank, 'unhinged', unhingedBtn));
-        singedBtn.addEventListener('click', () => handleVote(user.rank, 'singed', singedBtn));
+        humanBtn.addEventListener('click', () => handleVote(user.rank, 'human', humanBtn));
+        aiBtn.addEventListener('click', () => handleVote(user.rank, 'ai', aiBtn));
 
         list.appendChild(item);
     });
@@ -321,12 +326,12 @@ function initLeaderboard() {
 function handleVote(submissionId, voteType, button) {
     // Get the counts display
     const item = button.closest('.leaderboard-item');
-    const unhingedCount = item.querySelector('.unhinged-count');
-    const singedCount = item.querySelector('.singed-count');
+    const humanCount = item.querySelector('.human-count');
+    const aiCount = item.querySelector('.ai-count');
 
     // Parse current counts
-    let unhinged = parseInt(unhingedCount.textContent);
-    let singed = parseInt(singedCount.textContent);
+    let human = parseInt(humanCount.textContent.replace(/[^\d]/g, ''));
+    let ai = parseInt(aiCount.textContent.replace(/[^\d]/g, ''));
 
     // Check if user already voted
     const voteKey = `vote_${submissionId}`;
@@ -334,41 +339,41 @@ function handleVote(submissionId, voteType, button) {
 
     if (previousVote === voteType) {
         // Undo vote
-        if (voteType === 'unhinged') {
-            unhinged--;
+        if (voteType === 'human') {
+            human--;
         } else {
-            singed--;
+            ai--;
         }
         localStorage.removeItem(voteKey);
         button.classList.remove('voted');
     } else {
         // Remove previous vote if exists
         if (previousVote) {
-            if (previousVote === 'unhinged') {
-                unhinged--;
-                item.querySelector('.unhinged-btn').classList.remove('voted');
+            if (previousVote === 'human') {
+                human--;
+                item.querySelector('.human-btn').classList.remove('voted');
             } else {
-                singed--;
-                item.querySelector('.singed-btn').classList.remove('voted');
+                ai--;
+                item.querySelector('.ai-btn').classList.remove('voted');
             }
         }
 
         // Add new vote
-        if (voteType === 'unhinged') {
-            unhinged++;
+        if (voteType === 'human') {
+            human++;
         } else {
-            singed++;
+            ai++;
         }
         localStorage.setItem(voteKey, voteType);
         button.classList.add('voted');
     }
 
     // Update display with animation
-    unhingedCount.textContent = `${unhinged} 🔥`;
-    singedCount.textContent = `${singed} 💧`;
+    humanCount.textContent = `👤 ${human}`;
+    aiCount.textContent = `🤖 ${ai}`;
 
     // Animate the count
-    const targetCount = voteType === 'unhinged' ? unhingedCount : singedCount;
+    const targetCount = voteType === 'human' ? humanCount : aiCount;
     targetCount.style.transform = 'scale(1.3)';
     setTimeout(() => {
         targetCount.style.transform = 'scale(1)';
